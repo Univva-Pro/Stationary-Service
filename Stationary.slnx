@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Infrastructure/">
+    <File Path="Dockerfile" />
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Folder Name="/Mongo-init/">
+    <File Path="Mongo-init\init.js" />
+  </Folder>
+  <Project Path="Stationary.DMO\Stationary.DMO.csproj" />
+  <Project Path="Stationary.DTO\Stationary.DTO.csproj" />
+  <Project Path="Stationary.Context\Stationary.Context.csproj" />
+  <Project Path="Stationary.ServiceHub\Stationary.ServiceHub.csproj" />
+</Solution>
