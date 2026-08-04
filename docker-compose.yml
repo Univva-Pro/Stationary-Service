@@ -6,9 +6,11 @@ services:
     ports:
       - "8090:8080"
     environment:
-      # We commented this out so your appsettings.json link takes priority!
-      # - MongoDb__ConnectionString=mongodb://stationary-db:27017
+      - MongoDb__ConnectionString=mongodb+srv://naikamit6773_db_user:99Vm5HDAzFmUZaGM@cluster0.2gdsncu.mongodb.net/?appName=Cluster0
       - MongoDb__DatabaseName=StationaryDB
+      - ServiceUrls__CommonService=http://host.docker.internal:8091
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   stationary-frontend:
     build:
