@@ -139,9 +139,35 @@ app.MapGet("/api/stationary/products", async ([Microsoft.AspNetCore.Mvc.FromServ
 // Add Product (Admin Only)
 app.MapPost("/api/stationary/products", async (StationaryProductRequest request, [Microsoft.AspNetCore.Mvc.FromServices] StationaryRepository repository) =>
 {
+    var existingProducts = await repository.GetAllProductsAsync();
+    var existing = existingProducts.FirstOrDefault(p => !string.IsNullOrEmpty(p.Name) && p.Name.Trim().Equals(request.Name?.Trim(), StringComparison.OrdinalIgnoreCase));
+
+    if (existing != null)
+    {
+        existing.Category = request.Category;
+        existing.Brand = request.Brand;
+        existing.Price = request.Price;
+        existing.StockQuantity = request.StockQuantity;
+        await repository.UpdateProductAsync(existing.Id.ToString(), existing);
+
+        var commonUrl = builder.Configuration["ServiceUrls:CommonService"];
+        _ = ProductSyncClient.SyncProductToCommonAsync(new ProductSyncPayload
+        {
+            OriginalId = existing.Id.ToString(),
+            Name = existing.Name,
+            Category = string.IsNullOrEmpty(existing.Category) ? "Stationary" : existing.Category,
+            Price = (decimal)existing.Price,
+            StockQuantity = existing.StockQuantity,
+            SourceService = "Stationary",
+            ActionType = "Update"
+        }, commonUrl);
+
+        return Results.Ok(existing);
+    }
+
     var product = new StationaryProduct
     {
-        Name = request.Name,
+        Name = request.Name?.Trim() ?? "",
         Category = request.Category,
         Brand = request.Brand,
         Price = request.Price,
