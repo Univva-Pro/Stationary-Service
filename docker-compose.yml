@@ -1,5 +1,5 @@
 services:
-  stationary-api:
+  stationary-service:
     build:
       context: .
       dockerfile: Dockerfile
@@ -11,13 +11,3 @@ services:
       - ServiceUrls__CommonService=http://host.docker.internal:8091
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
-  stationary-frontend:
-    build:
-      context: ./Stationary.Frontend
-      dockerfile: Dockerfile
-    ports:
-      - "4202:80"
-    depends_on:
-      - stationary-api
-

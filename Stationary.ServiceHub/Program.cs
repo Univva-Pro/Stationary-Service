@@ -256,4 +256,6 @@ app.MapDelete("/api/stationary/products/{id}", async (string id, [Microsoft.AspN
     return Results.Ok(new { message = "Product deleted successfully" });
 }).RequireAuthorization("AdminOnly");
 
+app.MapFallbackToFile("index.html");
+
 app.Run();
