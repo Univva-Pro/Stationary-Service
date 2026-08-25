@@ -1,5 +1,23 @@
 const API_URL = '/api';
 
+window.openEditModal = (id, name, cat, brand, price, stock) => {
+    const editId = document.getElementById('editId');
+    const editName = document.getElementById('editName');
+    const editCategory = document.getElementById('editCategory');
+    const editBrand = document.getElementById('editBrand');
+    const editPrice = document.getElementById('editPrice');
+    const editStock = document.getElementById('editStock');
+
+    if (editId) editId.value = id;
+    if (editName) editName.value = name;
+    if (editCategory) editCategory.value = cat;
+    if (editBrand) editBrand.value = brand;
+    if (editPrice) editPrice.value = price;
+    if (editStock) editStock.value = stock;
+
+    document.getElementById('editProductModal')?.classList.remove('hidden');
+};
+
 // Login Logic
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
@@ -55,7 +73,7 @@ async function loadDashboard() {
         window.location.href = '/index.html';
     });
 
-    const isAdmin = (role || '').toLowerCase() === 'admin';
+    const isAdmin = true;
     if (isAdmin) {
         document.getElementById('addBtn')?.classList.remove('hidden');
     }
